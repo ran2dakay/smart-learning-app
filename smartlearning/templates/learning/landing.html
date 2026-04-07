@@ -1,0 +1,386 @@
+{% load static %}
+{% load landing_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Learning Platform — Master Tech Skills</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+<body>
+
+<!-- ====== NAVBAR ====== -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+            <i class="bi bi-lightning-charge-fill" style="color:#7c3aed;-webkit-text-fill-color:#7c3aed"></i>
+            SmartLearn
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <i class="bi bi-list text-white fs-4"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav me-auto gap-1">
+                <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                <li class="nav-item"><a class="nav-link" href="#technologies">Technologies</a></li>
+                <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+            </ul>
+            <div class="d-flex gap-2">
+                <a href="{% url 'login' %}" class="btn btn-outline-gradient">Login</a>
+                <a href="{% url 'register' %}" class="btn btn-gradient"><span>Get Started</span></a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ====== HERO ====== -->
+<section class="hero-section" id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+
+    <div class="container position-relative">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <div class="tag mb-4 fade-in-up"><i class="bi bi-stars me-2"></i> AI-Powered Learning Paths</div>
+                <h1 class="hero-title fade-in-up delay-1">
+                    Master <span class="gradient-text">Tech Skills</span><br>
+                    Faster Than Ever
+                </h1>
+                <p class="hero-subtitle fade-in-up delay-2">
+                    Structured roadmaps for every technology. Track your progress, resume where you left off, and go from beginner to advanced with confidence.
+                </p>
+                <div class="d-flex gap-3 flex-wrap fade-in-up delay-3">
+                    <a href="{% url 'register' %}" class="btn btn-gradient btn-lg">
+                        <span><i class="bi bi-rocket-takeoff me-2"></i>Start Learning Free</span>
+                    </a>
+                    <a href="#technologies" class="btn btn-outline-gradient btn-lg">
+                        <i class="bi bi-compass me-2"></i>Explore Topics
+                    </a>
+                </div>
+
+                <div class="hero-stats fade-in-up delay-4">
+                    <div class="hero-stat">
+                        <h3>6+</h3>
+                        <p>Technologies</p>
+                    </div>
+                    <div class="hero-stat">
+                        <h3>50+</h3>
+                        <p>Topics</p>
+                    </div>
+                    <div class="hero-stat">
+                        <h3>3</h3>
+                        <p>Skill Levels</p>
+                    </div>
+                    <div class="hero-stat">
+                        <h3>100%</h3>
+                        <p>Free Access</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 d-none d-lg-block">
+                <!-- Decorative dashboard mockup -->
+                <div class="glass-card p-4" style="transform: rotate(-2deg)">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <div style="width:12px;height:12px;border-radius:50%;background:#ef4444"></div>
+                        <div style="width:12px;height:12px;border-radius:50%;background:#f59e0b"></div>
+                        <div style="width:12px;height:12px;border-radius:50%;background:#10b981"></div>
+                        <div class="ms-2 text-muted" style="font-size:0.8rem">dashboard.slp</div>
+                    </div>
+
+                    <div class="d-flex gap-2 mb-3">
+                        <div style="background: var(--gradient); border-radius:8px; padding:10px 14px; font-size:0.8rem; font-weight:700;">Python</div>
+                        <div style="background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:0.8rem;color:var(--text-muted);">JavaScript</div>
+                        <div style="background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:0.8rem;color:var(--text-muted);">React</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1" style="font-size:0.8rem">
+                            <span>Python Fundamentals</span><span style="color:var(--success)">80%</span>
+                        </div>
+                        <div class="progress-wrap"><div class="progress-bar-animated" data-width="80" style="width:80%"></div></div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1" style="font-size:0.8rem">
+                            <span>JavaScript ES6+</span><span style="color:var(--warning)">55%</span>
+                        </div>
+                        <div class="progress-wrap"><div class="progress-bar-animated" data-width="55" style="width:55%"></div></div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1" style="font-size:0.8rem">
+                            <span>React Hooks</span><span style="color:var(--info)">30%</span>
+                        </div>
+                        <div class="progress-wrap"><div class="progress-bar-animated" data-width="30" style="width:30%"></div></div>
+                    </div>
+
+                    <div class="d-flex gap-2 mt-4">
+                        <div class="glass-card p-3 text-center flex-fill" style="border-radius:10px">
+                            <div style="font-size:1.4rem;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent">12</div>
+                            <div style="font-size:0.75rem;color:var(--text-muted)">Completed</div>
+                        </div>
+                        <div class="glass-card p-3 text-center flex-fill" style="border-radius:10px">
+                            <div style="font-size:1.4rem;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent">8</div>
+                            <div style="font-size:0.75rem;color:var(--text-muted)">Remaining</div>
+                        </div>
+                        <div class="glass-card p-3 text-center flex-fill" style="border-radius:10px">
+                            <div style="font-size:1.4rem;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent">60%</div>
+                            <div style="font-size:0.75rem;color:var(--text-muted)">Overall</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== FEATURES ====== -->
+<section class="py-5" id="features" style="padding: 80px 0 !important;">
+    <div class="container">
+        <div class="text-center mb-5">
+            <div class="tag mb-3"><i class="bi bi-lightning me-2"></i>Features</div>
+            <h2 class="section-title">Everything You Need to <span class="highlight">Level Up</span></h2>
+            <p class="section-subtitle">A complete learning system designed to take you from zero to hero.</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="glass-card feature-card h-100">
+                    <div class="feature-icon">
+                        <i class="bi bi-map" style="color:#7c3aed"></i>
+                    </div>
+                    <h4>Structured Roadmaps</h4>
+                    <p>Beginner → Intermediate → Advanced paths with clear topics, examples, and learning objectives for each technology.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="glass-card feature-card h-100">
+                    <div class="feature-icon">
+                        <i class="bi bi-graph-up-arrow" style="color:#10b981"></i>
+                    </div>
+                    <h4>Progress Tracking</h4>
+                    <p>Check off topics as you complete them. Your progress is saved permanently and synced across sessions.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="glass-card feature-card h-100">
+                    <div class="feature-icon">
+                        <i class="bi bi-arrow-repeat" style="color:#f59e0b"></i>
+                    </div>
+                    <h4>Resume Anytime</h4>
+                    <p>Log back in and continue right where you left off. Never lose your learning streak or completed topics.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="glass-card feature-card h-100">
+                    <div class="feature-icon">
+                        <i class="bi bi-code-square" style="color:#06b6d4"></i>
+                    </div>
+                    <h4>Code Examples</h4>
+                    <p>Every topic includes a practical code example so you can see real-world usage immediately.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="glass-card feature-card h-100">
+                    <div class="feature-icon">
+                        <i class="bi bi-bullseye" style="color:#ef4444"></i>
+                    </div>
+                    <h4>Learning Objectives</h4>
+                    <p>Each topic has a clear learning objective so you always know what you should be able to do after completing it.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="glass-card feature-card h-100">
+                    <div class="feature-icon">
+                        <i class="bi bi-shield-check" style="color:#a78bfa"></i>
+                    </div>
+                    <h4>Secure Accounts</h4>
+                    <p>Django-powered authentication keeps your data secure. Your progress is tied to your personal account.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TECHNOLOGIES ====== -->
+<section class="py-5" id="technologies" style="padding: 80px 0 !important;">
+    <div class="container">
+        <div class="text-center mb-5">
+            <div class="tag mb-3"><i class="bi bi-stack me-2"></i>Technologies</div>
+            <h2 class="section-title">Choose Your <span class="highlight">Learning Path</span></h2>
+            <p class="section-subtitle">Six in-demand technologies with complete structured roadmaps.</p>
+        </div>
+
+        <div class="tech-grid">
+            {% for tech in technologies %}
+            <div class="glass-card position-relative">
+                {% if not user.is_authenticated %}
+                <div class="preview-card">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="tech-icon-wrapper" style="margin-bottom:0">
+                            <i class="bi bi-{{ tech.icon }}" style="color:var(--accent)"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0">{{ tech.name }}</h5>
+                        </div>
+                    </div>
+
+                    <!-- Blurred preview of roadmap levels -->
+                    <div style="position:relative">
+                        <div style="filter:blur(3px); opacity:0.5; pointer-events:none">
+                            {% for level in "beginner,intermediate,advanced"|split:"," %}
+                            <div class="d-flex align-items-center gap-2 mb-2 p-2" style="background:rgba(255,255,255,0.03);border-radius:8px">
+                                <span class="level-badge level-{{ level }}" style="font-size:0.7rem">{{ level|title }}</span>
+                                <div style="flex:1;background:rgba(255,255,255,0.05);height:6px;border-radius:3px"></div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(15,14,23,0.6);border-radius:8px;backdrop-filter:blur(2px)">
+                            <div class="text-center">
+                                <i class="bi bi-lock-fill" style="color:var(--primary);font-size:1.3rem;display:block;margin-bottom:6px"></i>
+                                <small style="color:var(--text-muted);font-size:0.8rem">Login to view roadmap</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <a href="{% url 'technology_detail' tech.id %}" class="tech-card">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="tech-icon-wrapper" style="margin-bottom:0">
+                            <i class="bi bi-{{ tech.icon }}" style="color:var(--accent)"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0">{{ tech.name }}</h5>
+                        </div>
+                    </div>
+                    <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:0">{{ tech.description|truncatewords:15 }}</p>
+                </a>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if not user.is_authenticated %}
+        <div class="text-center mt-5">
+            <p class="text-muted mb-4">Create a free account to unlock all roadmaps and start tracking your progress.</p>
+            <a href="{% url 'register' %}" class="btn btn-gradient btn-lg">
+                <span><i class="bi bi-unlock-fill me-2"></i>Unlock Full Roadmaps</span>
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- ====== ABOUT ====== -->
+<section class="about-section" id="about">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-5">
+                <div class="tag mb-4"><i class="bi bi-info-circle me-2"></i>About</div>
+                <h2 class="section-title">Built for <span class="highlight">Developers</span> by Developers</h2>
+                <p style="color:var(--text-muted);line-height:1.8;margin-bottom:24px">
+                    Smart Learning Platform was built to solve a common problem: there are too many resources, but no clear path. We provide structured, curated learning roadmaps for the most in-demand technologies.
+                </p>
+                <p style="color:var(--text-muted);line-height:1.8;">
+                    Every topic is carefully crafted with explanations, practical examples, and learning objectives — so you know exactly what you're working towards at every step.
+                </p>
+            </div>
+            <div class="col-lg-7">
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <div class="glass-card p-4">
+                            <div class="mb-3" style="font-size:2rem">🎯</div>
+                            <h6 class="fw-700 mb-2">Goal-Oriented</h6>
+                            <p style="color:var(--text-muted);font-size:0.9rem;margin:0">Clear objectives for every topic so you always know what success looks like.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="glass-card p-4">
+                            <div class="mb-3" style="font-size:2rem">📊</div>
+                            <h6 class="fw-700 mb-2">Data-Driven</h6>
+                            <p style="color:var(--text-muted);font-size:0.9rem;margin:0">Track progress with visual dashboards and animated progress bars.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="glass-card p-4">
+                            <div class="mb-3" style="font-size:2rem">⚡</div>
+                            <h6 class="fw-700 mb-2">Efficient Learning</h6>
+                            <p style="color:var(--text-muted);font-size:0.9rem;margin:0">No fluff. Just what you need to know, with real code examples.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="glass-card p-4">
+                            <div class="mb-3" style="font-size:2rem">🔐</div>
+                            <h6 class="fw-700 mb-2">Persistent Progress</h6>
+                            <p style="color:var(--text-muted);font-size:0.9rem;margin:0">Your progress is saved to the database and synced every session.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== CTA ====== -->
+<section class="py-5" style="padding:80px 0!important">
+    <div class="container text-center">
+        <div class="glass-card p-5" style="max-width:700px;margin:auto;background:linear-gradient(135deg,rgba(79,70,229,0.2),rgba(124,58,237,0.2))">
+            <h2 class="section-title mb-3">Ready to Start Your <span class="highlight">Journey?</span></h2>
+            <p style="color:var(--text-muted);margin-bottom:32px;font-size:1.1rem">Join and start mastering in-demand tech skills today. It's completely free.</p>
+            <div class="d-flex gap-3 justify-content-center flex-wrap">
+                <a href="{% url 'register' %}" class="btn btn-gradient btn-lg"><span><i class="bi bi-person-plus me-2"></i>Create Free Account</span></a>
+                <a href="{% url 'login' %}" class="btn btn-outline-gradient btn-lg">Sign In</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== FOOTER ====== -->
+<footer class="footer">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="footer-brand"><i class="bi bi-lightning-charge-fill me-2" style="color:#7c3aed;-webkit-text-fill-color:#7c3aed"></i>SmartLearn</div>
+                <p>A structured learning platform for developers who want to master in-demand technologies with clear roadmaps and progress tracking.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="bi bi-github"></i></a>
+                    <a href="#" class="social-link"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#" class="social-link"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-sm-4">
+                <p class="footer-title">Platform</p>
+                <a href="#features" class="footer-link">Features</a>
+                <a href="#technologies" class="footer-link">Technologies</a>
+                <a href="#about" class="footer-link">About</a>
+            </div>
+            <div class="col-lg-2 col-sm-4">
+                <p class="footer-title">Account</p>
+                <a href="{% url 'register' %}" class="footer-link">Register</a>
+                <a href="{% url 'login' %}" class="footer-link">Login</a>
+            </div>
+            <div class="col-lg-4 col-sm-4">
+                <p class="footer-title">Technologies</p>
+                {% for tech in technologies %}
+                <a href="{% if user.is_authenticated %}{% url 'technology_detail' tech.id %}{% else %}{% url 'register' %}{% endif %}" class="footer-link">{{ tech.name }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2024 Smart Learning Platform. All rights reserved.</span>
+            <div class="social-links d-none d-md-flex">
+                <a href="#" class="social-link"><i class="bi bi-github"></i></a>
+                <a href="#" class="social-link"><i class="bi bi-heart-fill" style="color:#ef4444"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

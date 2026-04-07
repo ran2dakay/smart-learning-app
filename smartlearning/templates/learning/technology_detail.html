@@ -1,0 +1,186 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ technology.name }} — Smart Learning Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+<body>
+<div class="dashboard-wrapper">
+
+    <!-- ====== SIDEBAR ====== -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <h5><i class="bi bi-lightning-charge-fill me-2" style="color:#7c3aed;-webkit-text-fill-color:#7c3aed"></i>SmartLearn</h5>
+        </div>
+        <div class="sidebar-user">
+            <div class="user-avatar">{{ user.username|first|upper }}</div>
+            <div>
+                <h6>{{ user.get_full_name|default:user.username }}</h6>
+                <small>@{{ user.username }}</small>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="{% url 'dashboard' %}" class="sidebar-nav-item">
+                <i class="bi bi-grid-1x2-fill"></i> Dashboard
+            </a>
+            {% for rd in roadmap_data %}
+            <a href="#roadmap-{{ rd.roadmap.id }}" class="sidebar-nav-item {% if forloop.first %}active{% endif %}">
+                <i class="bi bi-circle{% if rd.completed == rd.total and rd.total > 0 %}-fill{% endif %}" style="{% if rd.completed == rd.total and rd.total > 0 %}color:var(--success){% endif %}"></i>
+                {{ rd.roadmap.get_level_display }}
+            </a>
+            {% endfor %}
+        </nav>
+        <div class="sidebar-bottom">
+            <a href="{% url 'dashboard' %}"><i class="bi bi-arrow-left"></i> Back to Dashboard</a>
+            <form method="post" action="{% url 'logout' %}" style="margin:0;padding:0;">
+                {% csrf_token %}
+                <button type="submit" style="color:#ef4444;background:none;border:none;padding:0;cursor:pointer;display:flex;align-items:center;gap:0.5rem;width:100%;font-size:inherit;font-family:inherit;">
+                    <i class="bi bi-box-arrow-right"></i> Logout
+                </button>
+            </form>
+        </div>
+    </aside>
+
+    <!-- ====== MAIN CONTENT ====== -->
+    <main class="main-content">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li class="breadcrumb-item active">{{ technology.name }}</li>
+            </ol>
+        </nav>
+
+        <!-- Tech Header -->
+        <div class="page-header d-flex align-items-start gap-4 flex-wrap">
+            <div class="tech-icon-wrapper" style="width:64px;height:64px;font-size:28px;margin-bottom:0;flex-shrink:0">
+                <i class="bi bi-{{ technology.icon }}" style="color:var(--accent)"></i>
+            </div>
+            <div>
+                <h1>{{ technology.name }}</h1>
+                <p>{{ technology.description }}</p>
+            </div>
+        </div>
+
+        <!-- Progress Summary -->
+        {% with total_all=0 completed_all=0 %}
+        <div class="row g-3 mb-5">
+            {% for rd in roadmap_data %}
+            <div class="col-sm-4">
+                <div class="glass-card p-4 text-center">
+                    <span class="level-badge level-{{ rd.roadmap.level }} mb-3 d-inline-block">{{ rd.roadmap.get_level_display }}</span>
+                    <div style="font-size:2rem;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1" data-roadmap-pct="{{ rd.roadmap.id }}">{{ rd.percent }}%</div>
+                    <div style="font-size:0.8rem;color:var(--text-muted);margin:4px 0 12px">
+                        <span data-roadmap-completed="{{ rd.roadmap.id }}">{{ rd.completed }}</span> / {{ rd.total }} topics
+                    </div>
+                    <div class="progress-wrap">
+                        <div class="progress-bar-animated" data-width="{{ rd.percent }}" data-roadmap-bar="{{ rd.roadmap.id }}"></div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endwith %}
+
+        <!-- CSRF Token for AJAX -->
+        <form id="csrf-form">{% csrf_token %}</form>
+
+        <!-- Roadmap Sections -->
+        {% for rd in roadmap_data %}
+        <div class="roadmap-section" id="roadmap-{{ rd.roadmap.id }}">
+            <div class="roadmap-header">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                    <div>
+                        <span class="level-badge level-{{ rd.roadmap.level }} me-3">{{ rd.roadmap.get_level_display }}</span>
+                        <span class="fw-800" style="font-size:1.1rem">{{ rd.roadmap.title }}</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-3">
+                        <span style="font-size:0.85rem;color:var(--text-muted)">
+                            <i class="bi bi-check-circle-fill text-success me-1"></i>
+                            <span data-roadmap-completed="{{ rd.roadmap.id }}">{{ rd.completed }}</span> done ·
+                            <span data-roadmap-remaining="{{ rd.roadmap.id }}">{{ rd.remaining }}</span> left
+                        </span>
+                        <span style="font-weight:700;color:var(--accent)" data-roadmap-pct="{{ rd.roadmap.id }}">{{ rd.percent }}%</span>
+                    </div>
+                </div>
+                <p style="color:var(--text-muted);margin:8px 0 0;font-size:0.9rem">{{ rd.roadmap.description }}</p>
+                <div class="progress-wrap mt-3">
+                    <div class="progress-bar-animated" data-width="{{ rd.percent }}" data-roadmap-bar="{{ rd.roadmap.id }}"></div>
+                </div>
+            </div>
+
+            <div class="roadmap-body">
+                {% for item in rd.topics_with_progress %}
+                <div class="glass-card topic-card {% if item.progress.completed %}completed{% endif %}" id="topic-{{ item.topic.id }}">
+                    <div class="d-flex align-items-start justify-content-between gap-3">
+                        <div class="flex-grow-1">
+                            <div class="topic-title">
+                                <span>{{ forloop.counter }}. {{ item.topic.name }}</span>
+                                {% if item.progress.completed %}
+                                <span style="background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);color:#10b981;border-radius:50px;padding:2px 10px;font-size:0.75rem;font-weight:600">
+                                    <i class="bi bi-check-circle-fill me-1"></i>Done
+                                </span>
+                                {% endif %}
+                            </div>
+                            <p style="color:var(--text-muted);font-size:0.92rem;line-height:1.6;margin-bottom:12px">{{ item.topic.explanation }}</p>
+
+                            <!-- Learning Objective -->
+                            <div class="topic-section">
+                                <div class="topic-section-label"><i class="bi bi-bullseye me-1"></i>Learning Objective</div>
+                                <div style="color:var(--text-light);font-size:0.9rem">{{ item.topic.learning_objective }}</div>
+                            </div>
+
+                            <!-- Code Example -->
+                            <div style="margin-top:12px">
+                                <div class="topic-section-label"><i class="bi bi-code-slash me-1"></i>Example</div>
+                                <div class="topic-example">{{ item.topic.example }}</div>
+                            </div>
+                        </div>
+
+                        <div style="flex-shrink:0;padding-top:4px">
+                            <button class="checkbox-btn {% if item.progress.completed %}checked{% endif %}"
+                                    data-topic-id="{{ item.topic.id }}"
+                                    data-roadmap-id="{{ rd.roadmap.id }}"
+                                    title="{% if item.progress.completed %}Mark incomplete{% else %}Mark complete{% endif %}">
+                                <div class="checkbox-icon">
+                                    {% if item.progress.completed %}
+                                    <i class="bi bi-check text-white" style="font-size:0.9rem"></i>
+                                    {% endif %}
+                                </div>
+                                <span class="d-none d-sm-inline">{% if item.progress.completed %}Done{% else %}Mark Done{% endif %}</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                {% if not rd.topics_with_progress %}
+                <div class="text-center py-4 text-muted">
+                    <i class="bi bi-inbox fs-3 d-block mb-2"></i>No topics available yet.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- Navigation -->
+        <div class="d-flex gap-3 mt-4 mb-5">
+            <a href="{% url 'dashboard' %}" class="btn btn-outline-gradient">
+                <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
+            </a>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

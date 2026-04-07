@@ -1,0 +1,182 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — Smart Learning Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+<body>
+<div class="dashboard-wrapper">
+
+    <!-- ====== SIDEBAR ====== -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <h5><i class="bi bi-lightning-charge-fill me-2" style="color:#7c3aed;-webkit-text-fill-color:#7c3aed"></i>SmartLearn</h5>
+        </div>
+
+        <div class="sidebar-user">
+            <div class="user-avatar">{{ user.username|first|upper }}</div>
+            <div>
+                <h6>{{ user.get_full_name|default:user.username }}</h6>
+                <small>@{{ user.username }}</small>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="{% url 'dashboard' %}" class="sidebar-nav-item active">
+                <i class="bi bi-grid-1x2-fill"></i> Dashboard
+            </a>
+            {% for td in tech_data %}
+            <a href="{% url 'technology_detail' td.tech.id %}" class="sidebar-nav-item">
+                <i class="bi bi-{{ td.tech.icon }}"></i>
+                <span>{{ td.tech.name }}</span>
+                {% if td.percent > 0 %}
+                <span class="ms-auto" style="font-size:0.75rem;color:var(--accent)">{{ td.percent }}%</span>
+                {% endif %}
+            </a>
+            {% endfor %}
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="/"><i class="bi bi-house"></i> Home</a>
+            <form method="post" action="{% url 'logout' %}" style="margin:0;padding:0;">
+                {% csrf_token %}
+                <button type="submit" style="color:#ef4444;background:none;border:none;padding:0;cursor:pointer;display:flex;align-items:center;gap:0.5rem;width:100%;font-size:inherit;font-family:inherit;">
+                    <i class="bi bi-box-arrow-right"></i> Logout
+                </button>
+            </form>
+        </div>
+    </aside>
+
+    <!-- ====== MAIN CONTENT ====== -->
+    <main class="main-content">
+
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-success mb-4 d-flex align-items-center gap-2">
+            <i class="bi bi-check-circle-fill"></i> {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>Welcome back, <span style="background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">{{ user.get_full_name|default:user.username }}</span>!</h1>
+            <p>Here's your learning progress overview. Keep it up!</p>
+        </div>
+
+        <!-- Overall Stats -->
+        <div class="row g-4 mb-5">
+            <div class="col-sm-6 col-lg-3">
+                <div class="glass-card stat-card">
+                    <div class="stat-number">{{ total_completed }}</div>
+                    <div class="stat-label"><i class="bi bi-check-circle-fill text-success me-1"></i>Topics Completed</div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="glass-card stat-card">
+                    <div class="stat-number">{{ total_remaining }}</div>
+                    <div class="stat-label"><i class="bi bi-hourglass-split text-warning me-1"></i>Topics Remaining</div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="glass-card stat-card">
+                    <div class="stat-number">{{ total_topics }}</div>
+                    <div class="stat-label"><i class="bi bi-book-fill" style="color:var(--accent)" me-1></i>&nbsp;Total Topics</div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="glass-card stat-card">
+                    <div class="stat-number">{{ overall_percent }}%</div>
+                    <div class="stat-label"><i class="bi bi-graph-up-arrow" style="color:var(--primary)" me-1></i>&nbsp;Overall Progress</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overall Circle Progress -->
+        <div class="glass-card p-4 mb-5 text-center" style="max-width:320px;margin:0 0 2rem 0">
+            <h6 class="fw-700 mb-3" style="color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;font-size:0.8rem">Overall Progress</h6>
+            <div class="progress-circle-wrap">
+                <svg viewBox="0 0 100 100" width="120" height="120">
+                    <defs>
+                        <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#4f46e5"/>
+                            <stop offset="100%" style="stop-color:#a855f7"/>
+                        </linearGradient>
+                    </defs>
+                    <circle class="progress-circle-bg" cx="50" cy="50" r="45"/>
+                    <circle class="progress-circle-fill" cx="50" cy="50" r="45" data-percent="{{ overall_percent }}"/>
+                </svg>
+                <div class="progress-circle-text">
+                    <div class="pct">{{ overall_percent }}%</div>
+                    <div class="pct-label">Done</div>
+                </div>
+            </div>
+            <div style="font-size:0.85rem;color:var(--text-muted)">
+                {{ total_completed }} / {{ total_topics }} topics
+            </div>
+        </div>
+
+        <!-- Technology Cards Grid -->
+        <h4 class="fw-800 mb-4" style="font-size:1.3rem">
+            <i class="bi bi-stack me-2" style="color:var(--primary)"></i>Learning Roadmaps
+        </h4>
+
+        <div class="tech-grid">
+            {% for td in tech_data %}
+            <div class="glass-card p-4">
+                <div class="d-flex align-items-center gap-3 mb-4">
+                    <div class="tech-icon-wrapper" style="margin-bottom:0;width:50px;height:50px;font-size:22px">
+                        <i class="bi bi-{{ td.tech.icon }}" style="color:var(--accent)"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-800 mb-0">{{ td.tech.name }}</h5>
+                        <small style="color:var(--text-muted)">{{ td.topics }} topics total</small>
+                    </div>
+                    <div class="ms-auto text-end">
+                        <div style="font-size:1.4rem;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1">{{ td.percent }}%</div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between mb-2" style="font-size:0.82rem;color:var(--text-muted)">
+                    <span><i class="bi bi-check-circle text-success me-1"></i>{{ td.completed }} completed</span>
+                    <span><i class="bi bi-circle me-1"></i>{{ td.remaining }} remaining</span>
+                </div>
+
+                <div class="progress-wrap mb-4">
+                    <div class="progress-bar-animated" data-width="{{ td.percent }}"></div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <a href="{% url 'technology_detail' td.tech.id %}" class="btn btn-gradient btn-sm flex-fill">
+                        <span>
+                            {% if td.completed == 0 %}
+                            <i class="bi bi-rocket-takeoff me-1"></i>Start
+                            {% elif td.percent == 100 %}
+                            <i class="bi bi-trophy me-1"></i>Review
+                            {% else %}
+                            <i class="bi bi-arrow-right-circle me-1"></i>Resume
+                            {% endif %}
+                        </span>
+                    </a>
+                    <a href="{% url 'technology_detail' td.tech.id %}" class="btn btn-outline-gradient btn-sm">
+                        <i class="bi bi-map"></i>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
